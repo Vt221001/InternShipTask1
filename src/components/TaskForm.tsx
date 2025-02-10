@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { createTask, updateTask, getTaskById } from "@/app/api/api";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Task {
   _id?: string;
@@ -51,13 +52,16 @@ export default function TaskForm({ taskId }: { taskId?: string }) {
     try {
       if (taskId) {
         await updateTask(taskId, task);
+        toast.success("Task updated successfully!");
       } else {
         await createTask(task);
+        toast.success("Task created successfully!");
       }
       router.push("/task");
     } catch (error) {
       setError("Error submitting task.");
       console.error("Error submitting task:", error);
+      toast.error("Error submitting task.");
     } finally {
       setLoading(false);
     }
@@ -114,7 +118,7 @@ export default function TaskForm({ taskId }: { taskId?: string }) {
             className="px-4 py-2 rounded bg-red-500 text-white"
             onClick={() => router.push("/task")}
           >
-            Close
+            Back
           </button>
         </div>
       </form>
