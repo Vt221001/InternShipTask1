@@ -2,11 +2,12 @@ import { connect } from "@/Db/db";
 import { Task } from "@/model/taskModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { id } = context.params; // Corrected way to access params
+interface Context {
+  params: { id: string };
+}
+
+export async function PUT(req: NextRequest, context: Context) {
+  const { id } = context.params;
   const { title, description, dueDate, completed } = await req.json();
 
   await connect();
@@ -26,11 +27,8 @@ export async function PUT(
   );
 }
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { id } = context.params; // Corrected
+export async function DELETE(req: NextRequest, context: Context) {
+  const { id } = context.params;
 
   await connect();
   const deletedTask = await Task.findByIdAndDelete(id);
@@ -42,11 +40,8 @@ export async function DELETE(
   return NextResponse.json({ message: "Task Deleted" }, { status: 200 });
 }
 
-export async function GET(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { id } = context.params; // Corrected
+export async function GET(req: NextRequest, context: Context) {
+  const { id } = context.params;
 
   await connect();
 
