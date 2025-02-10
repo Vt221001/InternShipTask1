@@ -2,49 +2,58 @@ import { connect } from "@/Db/db";
 import { Task } from "@/model/taskModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+// ✅ Corrected Type for Next.js 15
+type RouteParams = { params: { id: string } };
+
+// ✅ Update Task
+export async function PUT(req: NextRequest, context: RouteParams) {
+  const { id } = context.params;
   const { title, description, dueDate, completed } = await req.json();
+
   await connect();
   const updatedTask = await Task.findByIdAndUpdate(
     id,
     { title, description, dueDate, completed },
     { new: true }
   );
+
+  if (!updatedTask) {
+    return NextResponse.json({ message: "Task not found" }, { status: 404 });
+  }
+
   return NextResponse.json(
     { message: "Task Updated", updatedTask },
     { status: 200 }
   );
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function DELETE(req: NextRequest, context: RouteParams) {
+  const { id } = context.params;
+
   await connect();
-  await Task.findByIdAndDelete(id);
+  const deletedTask = await Task.findByIdAndDelete(id);
+
+  if (!deletedTask) {
+    return NextResponse.json({ message: "Task not found" }, { status: 404 });
+  }
+
   return NextResponse.json({ message: "Task Deleted" }, { status: 200 });
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, context: RouteParams) {
+  const { id } = context.params;
+
   await connect();
 
   try {
-    const task = await Task.findById(params.id);
+    const task = await Task.findById(id);
     if (!task) {
       return NextResponse.json({ message: "Task not found" }, { status: 404 });
     }
     return NextResponse.json(task, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { message: "Error fetching task", error },
+      { message: "Error fetching task", error: (error as Error).message },
       { status: 500 }
     );
   }
