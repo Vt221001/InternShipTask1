@@ -64,46 +64,60 @@ export default function TaskForm({ taskId }: { taskId?: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded-md shadow">
-      <h2 className="text-xl font-bold mb-4">
-        {taskId ? "Edit Task" : "New Task"}
-      </h2>
-
-      {loading && <p className="text-blue-500">Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-
-      <input
-        type="text"
-        placeholder="Title"
-        value={task.title}
-        onChange={(e) => setTask({ ...task, title: e.target.value })}
-        className="block w-full p-2 mb-2 border rounded"
-        required
-      />
-      <textarea
-        placeholder="Description"
-        value={task.description}
-        onChange={(e) => setTask({ ...task, description: e.target.value })}
-        className="block w-full p-2 mb-2 border rounded"
-        required
-      />
-      <input
-        placeholder="due date"
-        type="date"
-        value={task.dueDate}
-        onChange={(e) => setTask({ ...task, dueDate: e.target.value })}
-        className="block w-full p-2 mb-2 border rounded"
-        required
-      />
-      <button
-        type="submit"
-        className={`px-4 py-2 rounded ${
-          loading ? "bg-gray-400" : "bg-blue-500"
-        } text-white`}
-        disabled={loading}
+    <div className="flex justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="p-4 border rounded-md shadow  w-[600px]"
       >
-        {loading ? "Processing..." : taskId ? "Update Task" : "Create Task"}
-      </button>
-    </form>
+        <h2 className="text-xl font-bold text-black mb-4">
+          {taskId ? "Edit Task" : "New Task"}
+        </h2>
+
+        {loading && <p className="text-blue-500">Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+
+        <input
+          type="text"
+          placeholder="Title"
+          value={task.title}
+          onChange={(e) => setTask({ ...task, title: e.target.value })}
+          className="block w-full p-2 mb-2 border rounded"
+          required
+        />
+        <textarea
+          placeholder="Description"
+          value={task.description}
+          onChange={(e) => setTask({ ...task, description: e.target.value })}
+          className="block w-full p-2 mb-2 border rounded"
+          required
+        />
+        <input
+          placeholder="due date"
+          type="date"
+          value={task.dueDate}
+          onChange={(e) => setTask({ ...task, dueDate: e.target.value })}
+          className="block w-full p-2 mb-2 border rounded"
+          required
+        />
+        <div className="flex justify-between">
+          <button
+            type="submit"
+            className={`px-4 py-2 rounded ${
+              loading ? "bg-gray-400" : "bg-blue-500"
+            } text-white`}
+            disabled={loading}
+          >
+            {loading ? "Processing..." : taskId ? "Update Task" : "Create Task"}
+          </button>
+          <button
+            type="button"
+            className="px-4 py-2 rounded bg-red-500 text-white"
+            onClick={() => router.push("/task")}
+          >
+            Close
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

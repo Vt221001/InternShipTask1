@@ -9,9 +9,11 @@ export default function EditTaskPage({
 }) {
   const { id } = use(params);
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Edit Task</h1>
-      <TaskForm taskId={id} />
+    <div className="bg-gray-300 text-white min-h-screen flex flex-col justify-center items-center p-6">
+      <div className="bg-white text-black p-6 rounded-2xl shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-semibold mb-4 text-center">Edit Task</h1>
+        <TaskForm taskId={id} />
+      </div>
     </div>
   );
 }
