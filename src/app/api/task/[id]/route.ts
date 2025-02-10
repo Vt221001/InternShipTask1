@@ -2,12 +2,11 @@ import { connect } from "@/Db/db";
 import { Task } from "@/model/taskModel";
 import { NextRequest, NextResponse } from "next/server";
 
-// ✅ Corrected Type for Next.js 15
-type RouteParams = { params: { id: string } };
-
-// ✅ Update Task
-export async function PUT(req: NextRequest, context: RouteParams) {
-  const { id } = context.params;
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
   const { title, description, dueDate, completed } = await req.json();
 
   await connect();
@@ -27,8 +26,11 @@ export async function PUT(req: NextRequest, context: RouteParams) {
   );
 }
 
-export async function DELETE(req: NextRequest, context: RouteParams) {
-  const { id } = context.params;
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
 
   await connect();
   const deletedTask = await Task.findByIdAndDelete(id);
@@ -40,8 +42,11 @@ export async function DELETE(req: NextRequest, context: RouteParams) {
   return NextResponse.json({ message: "Task Deleted" }, { status: 200 });
 }
 
-export async function GET(req: NextRequest, context: RouteParams) {
-  const { id } = context.params;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
 
   await connect();
 
