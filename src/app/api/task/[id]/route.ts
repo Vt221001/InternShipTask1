@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   try {
     await connect();
     const url = new URL(req.url);
-    const id = url.pathname.split("/").pop(); 
+    const id = url.pathname.split("/").pop();
 
     if (!id) {
       return NextResponse.json(
