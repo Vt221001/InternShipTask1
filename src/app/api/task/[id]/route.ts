@@ -2,10 +2,11 @@ import { connect } from "@/Db/db";
 import { Task } from "@/model/taskModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Record<string, string> }
-) {
+interface Params {
+  params: { id: string };
+}
+
+export async function GET(req: NextRequest, { params }: Params) {
   const { id } = params;
 
   try {
@@ -25,30 +26,50 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: Record<string, string> }
-) {
+export async function PUT(req: NextRequest, { params }: Params) {
   const { id } = params;
   const { title, description, dueDate, completed } = await req.json();
-  await connect();
-  const updatedTask = await Task.findByIdAndUpdate(
-    id,
-    { title, description, dueDate, completed },
-    { new: true }
-  );
-  return NextResponse.json(
-    { message: "Task Updated", updatedTask },
-    { status: 200 }
-  );
+
+  try {
+    await connect();
+    const updatedTask = await Task.findByIdAndUpdate(
+      id,
+      { title, description, dueDate, completed },
+      { new: true }
+    );
+
+    if (!updatedTask) {
+      return NextResponse.json({ message: "Task not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "Task Updated", updatedTask },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error updating task", error },
+      { status: 500 }
+    );
+  }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Record<string, string> }
-) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   const { id } = params;
-  await connect();
-  await Task.findByIdAndDelete(id);
-  return NextResponse.json({ message: "Task Deleted" }, { status: 200 });
+
+  try {
+    await connect();
+    const deletedTask = await Task.findByIdAndDelete(id);
+
+    if (!deletedTask) {
+      return NextResponse.json({ message: "Task not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Task Deleted" }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error deleting task", error },
+      { status: 500 }
+    );
+  }
 }
