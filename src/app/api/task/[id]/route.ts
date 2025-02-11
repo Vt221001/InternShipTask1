@@ -2,14 +2,19 @@ import { connect } from "@/Db/db";
 import { Task } from "@/model/taskModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-
+export async function GET(req: NextRequest) {
   try {
     await connect();
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop(); 
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "Task ID is required" },
+        { status: 400 }
+      );
+    }
+
     const task = await Task.findById(id);
 
     if (!task) {
@@ -25,15 +30,21 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-  const { title, description, dueDate, completed } = await req.json();
-
+export async function PUT(req: NextRequest) {
   try {
     await connect();
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop();
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "Task ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const { title, description, dueDate, completed } = await req.json();
+
     const updatedTask = await Task.findByIdAndUpdate(
       id,
       { title, description, dueDate, completed },
@@ -56,14 +67,19 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-
+export async function DELETE(req: NextRequest) {
   try {
     await connect();
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop();
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "Task ID is required" },
+        { status: 400 }
+      );
+    }
+
     const deletedTask = await Task.findByIdAndDelete(id);
 
     if (!deletedTask) {
