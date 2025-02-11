@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Task Management Application
 
-## Getting Started
+Overview
 
-First, run the development server:
+This is a simple Task Management application built using Next.js with Server Actions. Users can create, view, edit, and delete tasks while also marking them as complete or incomplete. The application persists data using MongoDB and is deployed on Vercel.
 
-```bash
+Live Demo
+
+Vercel Deployment: https://internshiptask1.vedanshtiwari.tech/task
+
+GitHub Repository: (https://github.com/Vt221001/InternShipTask1)
+
+Features
+
+✅ Task Operations: Create, Read, Update, and Delete tasks.
+
+✅ Mark Tasks as Complete/Incomplete: Toggle task completion status.
+
+✅ Task Details: Each task has a title, description, and due date.
+
+✅ Data Persistence: MongoDB is used to store tasks permanently.
+
+✅ Error Handling: Proper error messages and validations are implemented.
+
+✅ Loading States: UI displays loading indicators for smooth user experience.
+
+Tech Stack
+
+Frontend: Next.js (Latest Version)
+
+Backend: Next.js Server Actions
+
+Database: MongoDB (via Mongoose)
+
+Deployment: Vercel
+
+UI Library: Tailwind CSS (for styling)
+
+Installation & Setup
+
+1️⃣ Clone the Repository
+
+git clone https://github.com/Vt221001/InternShipTask1.git
+cd InternShipTask1
+
+2️⃣ Install Dependencies
+
+npm install
+3️⃣ Set Up Environment Variables
+
+Create a .env.local file in the root directory and add the following
+MONGODB_URI=your_mongodb_connection_string
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+
+4️⃣ Run the Application Locally
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Visit http://localhost:3000 in your browser.
