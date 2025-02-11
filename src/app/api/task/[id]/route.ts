@@ -2,11 +2,10 @@ import { connect } from "@/Db/db";
 import { Task } from "@/model/taskModel";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Params {
-  params: { id: string };
-}
-
-export async function GET(req: NextRequest, { params }: Params) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const { id } = params;
 
   try {
@@ -26,7 +25,10 @@ export async function GET(req: NextRequest, { params }: Params) {
   }
 }
 
-export async function PUT(req: NextRequest, { params }: Params) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const { id } = params;
   const { title, description, dueDate, completed } = await req.json();
 
@@ -54,7 +56,10 @@ export async function PUT(req: NextRequest, { params }: Params) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: Params) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const { id } = params;
 
   try {
